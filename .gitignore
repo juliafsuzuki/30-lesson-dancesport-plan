@@ -1,0 +1,7 @@
+# Local deployment and working files
+dancesport-site.tgz
+.sites-runtime/
+
+# Operating-system and editor files
+.DS_Store
+Thumbs.db

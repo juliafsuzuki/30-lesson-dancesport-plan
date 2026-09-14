@@ -1,12 +1,14 @@
-# DanceSport 30 Training Tracker
+# 30-Lesson DanceSport Plan
 
-Open `index.html` in a browser for the complete lesson plan and a local persistent draft. Local draft entries survive browser restarts on that device.
+Current release: **v1.0.0**
 
-For the shared, multi-user tracker:
+The tracker is a public web app with a shared Supabase database. Its four synchronized views are Detailed Plan, Lesson Summary, Phase Map, and Lesson Notes.
 
-1. Create a Supabase project and enable **Anonymous Sign-Ins** in Authentication → Providers. This means instructors do not need individual email accounts.
-2. Run [`supabase.sql`](./supabase.sql) in its SQL Editor.
-3. Open the app. The shared project connection is preconfigured, and each device receives private anonymous access automatically.
-4. All progress entries and task statuses are then saved in the shared database and load automatically whenever the app opens.
+## Project records
 
-The shared plan includes three views: granular lesson blocks, lesson summaries, and a phase/principle map. In the Detailed plan, each task has its own status and log. Progress entries retain the date, instructor, status, note, and any number of video links.
+- [Change log](./CHANGELOG.md) — stable release history.
+- [Reproduction guide](./REPRODUCE.md) — how to rebuild the app and its database.
+- [`supabase/migrations/`](./supabase/migrations/) — database schema history.
+- [`supabase.sql`](./supabase.sql) — current complete schema, retained as a convenient reference.
+
+The live app uses anonymous Supabase sign-in, so instructors do not need individual email accounts. Progress is stored in `progress_entries` and `task_statuses`; the app’s lesson summaries and phase progress are derived from those shared records.
