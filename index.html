@@ -155,9 +155,9 @@
       }
       .mobile-date-value { display: none; }
       @media (max-width: 600px) {
-        .lesson-card[open] .lesson-date-label { position: relative; }
-        .lesson-card[open] .mobile-date-value { position: absolute; z-index: 1; left: 9px; right: 9px; bottom: 0; display: flex; align-items: center; height: 38px; color: var(--ink); font: 13px 'DM Sans'; pointer-events: none; }
-        .lesson-card[open] .lesson-date { position: relative; z-index: 2; color: transparent !important; background: transparent !important; }
+        .lesson-card[open] .lesson-date-label { grid-template-rows: auto 38px; }
+        .lesson-card[open] .mobile-date-value { grid-column: 1; grid-row: 2; z-index: 1; display: flex; align-items: center; padding: 0 9px; color: var(--ink); font: 13px 'DM Sans'; pointer-events: none; }
+        .lesson-card[open] .lesson-date { grid-column: 1; grid-row: 2; position: relative; z-index: 2; color: transparent !important; background: transparent !important; }
         .lesson-card[open] .lesson-date::-webkit-calendar-picker-indicator { opacity: 1; }
       }
     </style>
