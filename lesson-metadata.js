@@ -115,7 +115,7 @@
       const entry = preferredEntry(lessonId);
       const controls = document.createElement('div');
       controls.className = 'lesson-session-controls';
-      controls.innerHTML = `<label>Lesson date<input class="lesson-date" type="date" value="${safe(entry?.session_date || '')}" /></label><label>Instructor<select class="lesson-instructor"><option value="">Select instructor</option>${instructorOptions.map((name) => `<option${entry?.instructor === name ? ' selected' : ''}>${name}</option>`).join('')}</select></label><span class="lesson-session-message" aria-live="polite"></span>`;
+      controls.innerHTML = `<label class="lesson-date-label">Lesson date<span class="mobile-date-value">${safe(entry?.session_date ? displayDate(entry.session_date) : 'Select date')}</span><input class="lesson-date" type="date" value="${safe(entry?.session_date || '')}" /></label><label>Instructor<select class="lesson-instructor"><option value="">Select instructor</option>${instructorOptions.map((name) => `<option${entry?.instructor === name ? ' selected' : ''}>${name}</option>`).join('')}</select></label><span class="lesson-session-message" aria-live="polite"></span>`;
       const button = actionBar.querySelector('.lesson-log-button');
       button.textContent = 'Lesson Note';
       actionBar.insertBefore(controls, button);
@@ -123,7 +123,7 @@
       footer.className = 'lesson-note-action';
       footer.appendChild(button);
       card.querySelector('.task-table').after(footer);
-      controls.querySelector('.lesson-date').addEventListener('change', () => saveMetadata(lessonId));
+      controls.querySelector('.lesson-date').addEventListener('change', (event) => { const value = event.target.value; controls.querySelector('.mobile-date-value').textContent = value ? displayDate(value) : 'Select date'; saveMetadata(lessonId); });
       controls.querySelector('.lesson-instructor').addEventListener('change', () => saveMetadata(lessonId));
     });
   }

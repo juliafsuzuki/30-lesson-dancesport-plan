@@ -153,6 +153,13 @@
         .lesson-card[open] .lesson-date::-webkit-datetime-edit { text-align: left !important; }
         .lesson-card[open] .lesson-date::-webkit-datetime-edit { display: flex; align-items: center; height: 100%; padding: 0; line-height: 38px; }
       }
+      .mobile-date-value { display: none; }
+      @media (max-width: 600px) {
+        .lesson-card[open] .lesson-date-label { position: relative; }
+        .lesson-card[open] .mobile-date-value { position: absolute; z-index: 1; left: 9px; right: 9px; bottom: 0; display: flex; align-items: center; height: 38px; color: var(--ink); font: 13px 'DM Sans'; pointer-events: none; }
+        .lesson-card[open] .lesson-date { position: relative; z-index: 2; color: transparent !important; background: transparent !important; }
+        .lesson-card[open] .lesson-date::-webkit-calendar-picker-indicator { opacity: 1; }
+      }
     </style>
   </head>
   <body>
