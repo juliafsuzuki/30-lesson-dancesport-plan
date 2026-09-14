@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>30-Lesson DanceSport Plan, Inspired by Bruce Lee's Training Principles</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2302066f'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Arial,sans-serif' font-size='24' font-weight='700' fill='white'%3E30%3C/text%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+    <style>
+      .lesson-card summary { grid-template-columns: 95px 1fr auto; }
+      .lesson-number { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+      .lesson-fields { display: flex; gap: 18px; margin: 16px 0 0; }
+      .lesson-fields div { border-left: 2px solid var(--gold); padding: 1px 0 1px 9px; }
+      .lesson-fields dt { font: 500 10px 'DM Mono'; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+      .lesson-fields dd { margin: 2px 0 0; font-weight: 600; font-size: 13px; }
+      .task-action { display: grid; gap: 8px; justify-items: start; }
+      .lesson-action-bar { display: flex; justify-content: flex-end; margin-bottom: 14px; }
+      .lesson-total { margin-right: auto; align-self: center; color: var(--muted); font-size: 13px; }
+      .lesson-total b { color: var(--ink); }
+      .lesson-session-controls { display: flex; gap: 10px; align-items: end; flex-wrap: wrap; margin-right: 12px; }
+      .lesson-session-controls label { display: grid; gap: 4px; font: 500 10px 'DM Mono'; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+      .lesson-session-controls input, .lesson-session-controls select { min-height: 35px; border: 1px solid var(--line); border-radius: 4px; padding: 7px 9px; background: #fffdfa; color: var(--ink); font: 13px 'DM Sans'; }
+      .lesson-session-message { align-self: center; color: var(--muted); font-size: 11px; }
+      .lesson-note-action { display: flex; justify-content: center; margin-top: 20px; }
+      .notes-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 7px; background: var(--card); }
+      .notes-table { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 14px; }
+      .notes-table th { padding: 12px 14px; text-align: left; font: 500 10px 'DM Mono'; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); background: #faf7ef; }
+      .notes-table td { padding: 14px; vertical-align: top; border-top: 1px solid #e7e3da; }
+      .notes-table td:first-child { color: var(--gold); font-family: 'DM Mono'; white-space: nowrap; }
+      .notes-table td:nth-child(3) { white-space: nowrap; }
+      .notes-table a { color: var(--green); }
+      .note-video-links { display: grid; gap: 5px; }
+      .figures { white-space: pre-line; }
+      .task-table td:nth-child(2) { width: 135px; }
+      .entry-list { margin: 12px 0 0; }
+      .video-links { display: block; margin-top: 4px; }
+      .text-button { border: 0; background: transparent; padding: 6px 0; color: var(--green); font: 600 12px 'DM Sans'; cursor: pointer; text-align: left; }
+      .dialog label, .video-field { display: grid; gap: 6px; margin: 13px 0; font-size: 13px; font-weight: 600; }
+      .video-field #video-links { display: grid; gap: 8px; }
+      .video-entry { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 8px; }
+      .status-pill.done { background: #dcece2; color: #1a6240; }
+      .status-pill.in-progress { background: #e7edf1; color: #2f607c; }
+      .status-pill.not-started { background: #f6dfd9; color: var(--red); }
+      .inline-status { border: 1px solid var(--line); border-radius: 999px; padding: 5px 8px; background: #fffdfa; font: 500 10px 'DM Mono'; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); cursor: pointer; }
+      .inline-status.completed { background: #dcece2; color: #1a6240; border-color: #b9d9c5; }
+      .dialog-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; }
+      .dialog-close { width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--ink); font: 400 25px/28px Arial, sans-serif; cursor: pointer; flex: 0 0 auto; }
+      .dialog-close:hover { background: #ece8dd; border-color: #c8c1b2; }
+      @media (max-width: 760px) { .lesson-card summary { grid-template-columns: 58px 1fr; } .lesson-fields { gap: 10px; flex-wrap: wrap; } .lesson-action-bar { align-items: flex-start; flex-wrap: wrap; } .lesson-session-controls { width: 100%; margin: 10px 0 0; order: 3; } }
+    </style>
+  </head>
+  <body>
+    <section id="access-gate" class="access-gate" aria-labelledby="access-title">
+      <form id="access-form" class="access-card">
+        <span class="access-mark">30</span>
+        <p class="eyebrow">DanceSport training tracker</p>
+        <h1 id="access-title">30-Lesson DanceSport Plan</h1>
+        <p>Enter the shared passcode to open the 30-lesson plan.</p>
+        <label>Passcode<input id="access-passcode" type="password" autocomplete="current-password" required autofocus /></label>
+        <p id="access-message" class="access-message" aria-live="polite"></p>
+        <button class="button" type="submit">Open the plan</button>
+      </form>
+    </section>
+    <div class="grain"></div>
+    <header class="topbar">
+      <a class="brand" href="#"><span class="brand-mark">30</span><span>30-Lesson DanceSport Plan<br /><em>Inspired by Bruce Lee</em></span></a>
+      <div class="topbar-actions">
+        <span id="sync-state" class="sync-state">Local draft</span>
+        <button id="lock-app-button" class="button button-quiet">Lock app</button>
+        <button id="account-button" class="button button-quiet">Set up shared sync</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-title">
+          <p class="eyebrow">Bronze syllabus</p>
+          <h1>30-Lesson DanceSport Plan</h1>
+          <section class="principles-panel" aria-label="Bruce Lee training principles">
+            <p>Inspired by Bruce Lee’s guiding principles for training:</p>
+            <ul class="principle-list">
+              <li>Depth over variety</li><li>Functionality over form</li><li>Constant adaptation</li><li>Record and review</li><li>Quality of effort over volume</li><li>Personalize the method</li>
+            </ul>
+          </section>
+        </div>
+        <div id="progress-overview" class="progress-overview"></div>
+      </section>
+
+      <nav class="view-tabs" aria-label="Plan views">
+        <button class="view-tab active" data-view="detail">01 · Detailed plan</button>
+        <button class="view-tab" data-view="summary">02 · Lesson summary</button>
+        <button class="view-tab" data-view="phase">03 · Phase map</button>
+        <button class="view-tab" data-view="notes">04 · Lesson notes</button>
+      </nav>
+
+      <section class="toolbar">
+        <label class="search"><span>Search</span><input id="search" type="search" placeholder="Lesson, dance, figure, focus…" /></label>
+        <select id="phase-filter" aria-label="Filter by phase"><option value="all">All phases</option></select>
+        <select id="instructor-filter" aria-label="Filter progress by instructor"><option value="all">All instructors</option><option>Davit</option><option>Filemon</option><option>Jed</option></select>
+      </section>
+
+      <section id="view-root" aria-live="polite"></section>
+    </main>
+
+    <dialog id="progress-dialog" class="dialog">
+      <form id="progress-form" method="dialog">
+        <div class="dialog-heading"><div><p class="eyebrow">Lesson note</p><h2 id="dialog-title">Add a note</h2></div><button id="close-progress" class="dialog-close" type="button" aria-label="Close Note" title="Close">×</button></div>
+        <input id="lesson-id" name="lesson-id" type="hidden" />
+        <input id="task-index" name="task-index" type="hidden" />
+        <label>Key Takeaways<textarea id="notes" name="notes" rows="4" placeholder="Connection, timing, a figure to revisit…"></textarea></label>
+        <div class="video-field"><span>Videos</span><div id="video-links"><div class="video-entry"><input class="video-name" type="text" placeholder="Video name (optional)" /><input class="video-url" type="url" placeholder="Video link (optional)" /></div></div><button id="add-video-link" type="button" class="text-button">+ Add another video</button></div>
+        <div class="dialog-actions"><button type="button" id="cancel-progress" class="button button-quiet">Cancel</button><button class="button" value="default">Save note</button></div>
+      </form>
+    </dialog>
+
+    <dialog id="account-dialog" class="dialog account-dialog">
+      <form id="account-form" method="dialog">
+        <div class="dialog-heading"><p class="eyebrow">Shared cloud sync</p><h2>Keep the team’s progress</h2></div>
+        <p>Connect this tracker to the shared Supabase project. Instructors do not need email addresses; the app uses the shared passcode and private anonymous access.</p>
+        <label>Supabase project URL<input id="supabase-url" type="url" placeholder="https://your-project.supabase.co" /></label>
+        <label>Supabase publishable/anon key<textarea id="supabase-key" rows="3" placeholder="Your public publishable or anon key"></textarea></label>
+        <p id="account-message" class="form-message"></p>
+        <div class="dialog-actions"><button type="button" id="cancel-account" class="button button-quiet">Close</button><button type="button" id="sign-in" class="button">Connect shared tracker</button></div>
+      </form>
+    </dialog>
+
+    <template id="empty-template"><div class="empty"><p class="eyebrow">No matching lessons</p><h2>Try a different search or filter.</h2></div></template>
+    <script src="./app.js"></script>
+    <script src="./overrides.js"></script>
+    <script src="./access.js"></script>
+    <script src="./supabase-anon.js"></script>
+    <script src="./final-polish.js"></script>
+    <script src="./lesson-metadata.js"></script>
+    <script src="./notes-register.js"></script>
+  </body>
+</html>
