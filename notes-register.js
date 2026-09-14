@@ -24,7 +24,7 @@
     return `<div class="notes-table-wrap"><table class="notes-table"><thead><tr><th>Lesson no.</th><th>Lesson name/title</th><th>Lesson date</th><th>Lesson note</th><th>Video links</th></tr></thead><tbody>${rows.map((entry) => {
       const lesson = lessons.find((item) => item.id === Number(entry.lesson_id));
       const videos = videoDetails(entry.video_urls || (entry.video_url ? [entry.video_url] : []));
-      return `<tr><td>${safe(`Lesson ${String(entry.lesson_id).padStart(2, '0')}`)}</td><td>${safe(lesson ? detailedTitle(lesson) : 'Lesson unavailable')}</td><td>${safe(entry.session_date ? displayDate(entry.session_date) : '—')}</td><td>${safe(entry.notes || '—')}</td><td>${videos.length ? `<span class="note-video-links">${videos.map((video) => `<a href="${safe(video.url)}" target="_blank" rel="noopener noreferrer">${safe(video.name)}</a>`).join('')}</span>` : '—'}</td></tr>`;
+      return `<tr><td data-label="Lesson no.">${safe(`Lesson ${String(entry.lesson_id).padStart(2, '0')}`)}</td><td data-label="Lesson name/title">${safe(lesson ? detailedTitle(lesson) : 'Lesson unavailable')}</td><td data-label="Lesson date">${safe(entry.session_date ? displayDate(entry.session_date) : '—')}</td><td data-label="Lesson note">${safe(entry.notes || '—')}</td><td data-label="Video links">${videos.length ? `<span class="note-video-links">${videos.map((video) => `<a href="${safe(video.url)}" target="_blank" rel="noopener noreferrer">${safe(video.name)}</a>`).join('')}</span>` : '—'}</td></tr>`;
     }).join('')}</tbody></table></div>`;
   }
 
@@ -36,3 +36,4 @@
   };
   render();
 })();
+
