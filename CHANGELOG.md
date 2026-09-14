@@ -2,6 +2,10 @@
 
 This file records stable versions of the 30-Lesson DanceSport Plan.
 
+## v1.1.7 — 2026-09-14
+
+- Restored the untouched desktop Detailed Plan table by hiding mobile-only task summaries outside phone layouts.
+
 ## v1.1.6 — 2026-09-14
 
 - Replaced phone Detailed Plan field-label cards with concise, readable task summaries.
