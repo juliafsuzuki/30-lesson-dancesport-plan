@@ -20,6 +20,12 @@
       .sort((a, b) => String(b.created_at || b.session_date || '').localeCompare(String(a.created_at || a.session_date || '')))[0];
   }
 
+  function latestSharedEntry(lessonId) {
+    return entriesForLesson(lessonId)
+      .slice()
+      .sort((a, b) => String(b.created_at || b.session_date || '').localeCompare(String(a.created_at || a.session_date || '')))[0];
+  }
+
   function controlsFor(lessonId) {
     const card = [...document.querySelectorAll('.lesson-card')].find((item) => Number(item.querySelector('.lesson-number')?.textContent.match(/\d+/)?.[0]) === Number(lessonId));
     return card ? {
@@ -56,7 +62,7 @@
   }
 
   async function saveLessonRecord(lessonId, values, retried = false) {
-    const existing = ownEntry(lessonId);
+    const existing = latestSharedEntry(lessonId);
     const payload = {
       instructor: values.instructor,
       session_date: values.date,
