@@ -9,14 +9,20 @@
 
   function preferredEntry(lessonId) {
     const scoped = entriesForLesson(lessonId).filter((entry) => state.instructor === 'all' || entry.instructor === state.instructor);
-    const own = scoped.filter((entry) => entry.created_by && entry.created_by === state.session?.user?.id);
-    const source = own.length ? own : scoped;
-    return source.slice().sort((a, b) => String(b.created_at || b.session_date || '').localeCompare(String(a.created_at || a.session_date || '')))[0];
+    // The lesson surface is shared: always display the newest matching team record,
+    // not just the record created by the browser currently viewing the tracker.
+    return scoped.slice().sort((a, b) => String(b.created_at || b.session_date || '').localeCompare(String(a.created_at || a.session_date || '')))[0];
   }
 
   function ownEntry(lessonId) {
     return entriesForLesson(lessonId)
       .filter((entry) => entry.created_by && entry.created_by === state.session?.user?.id)
+      .sort((a, b) => String(b.created_at || b.session_date || '').localeCompare(String(a.created_at || a.session_date || '')))[0];
+  }
+
+  function latestSharedEntry(lessonId) {
+    return entriesForLesson(lessonId)
+      .slice()
       .sort((a, b) => String(b.created_at || b.session_date || '').localeCompare(String(a.created_at || a.session_date || '')))[0];
   }
 
@@ -56,7 +62,7 @@
   }
 
   async function saveLessonRecord(lessonId, values, retried = false) {
-    const existing = ownEntry(lessonId);
+    const existing = latestSharedEntry(lessonId);
     const payload = {
       instructor: values.instructor,
       session_date: values.date,
@@ -115,7 +121,7 @@
       const entry = preferredEntry(lessonId);
       const controls = document.createElement('div');
       controls.className = 'lesson-session-controls';
-      controls.innerHTML = `<label>Lesson date<input class="lesson-date" type="date" value="${safe(entry?.session_date || '')}" /></label><label>Instructor<select class="lesson-instructor"><option value="">Select instructor</option>${instructorOptions.map((name) => `<option${entry?.instructor === name ? ' selected' : ''}>${name}</option>`).join('')}</select></label><span class="lesson-session-message" aria-live="polite"></span>`;
+      controls.innerHTML = `<label class="lesson-date-label">Lesson date<span class="mobile-date-value">${safe(entry?.session_date ? displayDate(entry.session_date) : 'Select date')}</span><input class="lesson-date" type="date" value="${safe(entry?.session_date || '')}" /></label><label>Instructor<select class="lesson-instructor"><option value="">Select instructor</option>${instructorOptions.map((name) => `<option${entry?.instructor === name ? ' selected' : ''}>${name}</option>`).join('')}</select></label><span class="lesson-session-message" aria-live="polite"></span>`;
       const button = actionBar.querySelector('.lesson-log-button');
       button.textContent = 'Lesson Note';
       actionBar.insertBefore(controls, button);
@@ -123,7 +129,7 @@
       footer.className = 'lesson-note-action';
       footer.appendChild(button);
       card.querySelector('.task-table').after(footer);
-      controls.querySelector('.lesson-date').addEventListener('change', () => saveMetadata(lessonId));
+      controls.querySelector('.lesson-date').addEventListener('change', (event) => { const value = event.target.value; controls.querySelector('.mobile-date-value').textContent = value ? displayDate(value) : 'Select date'; saveMetadata(lessonId); });
       controls.querySelector('.lesson-instructor').addEventListener('change', () => saveMetadata(lessonId));
     });
   }
@@ -189,3 +195,4 @@
   window.render = function () { baseRender(); decorateLessonControls(); applyLessonDates(); };
   render();
 })();
+
