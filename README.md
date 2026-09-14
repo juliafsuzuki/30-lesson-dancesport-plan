@@ -1,8 +1,8 @@
 # 30-Lesson DanceSport Plan
 
-Current release: **v1.1.11**
+Current release: **v2.0.0**
 
-The tracker is a public web app with a shared Supabase database. Its four synchronized views are Detailed Plan, Lesson Summary, Phase Map, and Lesson Notes.
+The tracker is a public web app with a shared Supabase database. Version 2.0.0 is the stable shared release for desktop, laptop, and mobile use. Its four synchronized views are Detailed Plan, Lesson Summary, Phase Map, and Lesson Notes.
 
 ## Project records
 
