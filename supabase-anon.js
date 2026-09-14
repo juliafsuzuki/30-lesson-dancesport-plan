@@ -75,3 +75,9 @@ if (state.config) startAnonymousSupabaseSession().catch(() => setSync('Sync need
 window.addEventListener('focus', () => {
   if (state.config && state.session?.access_token) loadEntries().catch(() => setSync('Sync needs attention'));
 });
+
+// Keep separate desktop and phone sessions aligned while the tracker stays open.
+setInterval(() => {
+  if (state.config && state.session?.access_token) loadEntries().catch(() => setSync('Sync needs attention'));
+}, 20000);
+
