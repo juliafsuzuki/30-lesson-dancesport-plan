@@ -50,6 +50,24 @@
       .dialog-close { width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--ink); font: 400 25px/28px Arial, sans-serif; cursor: pointer; flex: 0 0 auto; }
       .dialog-close:hover { background: #ece8dd; border-color: #c8c1b2; }
       @media (max-width: 760px) { .lesson-card summary { grid-template-columns: 58px 1fr; } .lesson-fields { gap: 10px; flex-wrap: wrap; } .lesson-action-bar { align-items: flex-start; flex-wrap: wrap; } .lesson-session-controls { width: 100%; margin: 10px 0 0; order: 3; } }
+      /* Phone Detailed Plan: keep lesson information dense, without overlapping controls. */
+      @media (max-width: 600px) {
+        .lesson-card summary { grid-template-columns: 58px minmax(0, 1fr); padding: 13px 16px; }
+        .lesson-card h2 { font-size: 21px; }
+        .lesson-card .lesson-meta { font-size: 12px; line-height: 1.35; margin-top: 4px; }
+        .lesson-action-bar { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 10px; }
+        .lesson-total { margin: 0; font-size: 14px; }
+        .lesson-session-controls { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, .9fr); gap: 8px; width: 100%; margin: 0; order: initial; }
+        .lesson-session-controls label { min-width: 0; gap: 3px; }
+        .lesson-session-controls input, .lesson-session-controls select { min-width: 0; width: 100%; min-height: 40px; padding: 6px 8px; font-size: 13px; }
+        .lesson-session-message { grid-column: 1 / -1; font-size: 12px; }
+        .lesson-card[open] .lesson-body { padding: 12px; }
+        .lesson-card[open] .task-table { margin-top: 8px; }
+        .lesson-card[open] .task-table tr { gap: 4px 8px; padding: 9px 0; }
+        .lesson-card[open] .task-table td { font-size: 13px; line-height: 1.25; }
+        .lesson-card[open] .task-table td::before { font-size: 10px; padding-bottom: 1px; }
+        .lesson-card[open] .inline-status { min-height: 40px; }
+      }
     </style>
   </head>
   <body>

@@ -2,6 +2,11 @@
 
 This file records stable versions of the 30-Lesson DanceSport Plan.
 
+## v1.1.2 — 2026-09-14
+
+- Fixed the phone Detailed Plan controls so lesson date and instructor fields do not overlap.
+- Reduced the phone lesson-header and activity spacing while keeping task details legible.
+
 ## v1.1.1 — 2026-09-14
 
 - Condensed the phone Detailed Plan so each activity uses substantially less vertical space.
