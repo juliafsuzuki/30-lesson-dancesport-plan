@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./styles.css?v=1.1.8" />
+    <link rel="stylesheet" href="./styles.css?v=1.1.9" />
     <style>
       .lesson-card summary { grid-template-columns: 95px 1fr auto; }
       .lesson-number { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
@@ -144,6 +144,14 @@
         .lesson-card[open] .lesson-session-controls select { width: 260px; max-width: 100%; min-height: 38px; height: 38px; padding: 6px 9px; line-height: 1; text-align: left; }
         .lesson-card[open] .lesson-date::-webkit-datetime-edit { text-align: left; }
       }
+      @media (max-width: 600px) {
+        .lesson-card[open] .lesson-session-controls { grid-template-columns: repeat(2, minmax(0, 164px)) !important; gap: 8px; }
+        .lesson-card[open] .lesson-session-controls label { width: 164px; max-width: 100%; }
+        .lesson-card[open] .lesson-session-controls input,
+        .lesson-card[open] .lesson-session-controls select { width: 164px; max-width: 100%; text-align: left !important; }
+        .lesson-card[open] .lesson-date::-webkit-date-and-time-value,
+        .lesson-card[open] .lesson-date::-webkit-datetime-edit { text-align: left !important; }
+      }
     </style>
   </head>
   <body>
@@ -222,12 +230,12 @@
     </dialog>
 
     <template id="empty-template"><div class="empty"><p class="eyebrow">No matching lessons</p><h2>Try a different search or filter.</h2></div></template>
-    <script src="./app.js?v=1.1.8"></script>
-    <script src="./overrides.js?v=1.1.8"></script>
-    <script src="./access.js?v=1.1.8"></script>
-    <script src="./supabase-anon.js?v=1.1.8"></script>
-    <script src="./final-polish.js?v=1.1.8"></script>
-    <script src="./lesson-metadata.js?v=1.1.8"></script>
-    <script src="./notes-register.js?v=1.1.8"></script>
+    <script src="./app.js?v=1.1.9"></script>
+    <script src="./overrides.js?v=1.1.9"></script>
+    <script src="./access.js?v=1.1.9"></script>
+    <script src="./supabase-anon.js?v=1.1.9"></script>
+    <script src="./final-polish.js?v=1.1.9"></script>
+    <script src="./lesson-metadata.js?v=1.1.9"></script>
+    <script src="./notes-register.js?v=1.1.9"></script>
   </body>
 </html>

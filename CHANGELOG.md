@@ -2,6 +2,10 @@
 
 This file records stable versions of the 30-Lesson DanceSport Plan.
 
+## v1.1.9 — 2026-09-14
+
+- Placed compact phone Lesson Date and Instructor fields on one line with left-aligned date text.
+
 ## v1.1.8 — 2026-09-14
 
 - Made the phone Lesson Date and Instructor controls compact, equal-width, and left-aligned.
