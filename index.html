@@ -95,6 +95,26 @@
         .lesson-card[open] .task-table td[data-label="Progress"]::before { padding: 0; }
         .lesson-card[open] .inline-status { width: 100%; min-height: 36px; height: 36px; padding: 5px 9px; font-size: 12px; }
       }
+      .mobile-task-header { display: none; }
+      /* Readable phone task cards: one task heading, one status control, no repeated labels. */
+      @media (max-width: 600px) {
+        .lesson-card[open] .lesson-session-controls { grid-template-columns: 1fr !important; }
+        .lesson-card[open] .lesson-session-controls label { width: 100%; }
+        .lesson-card[open] .task-table tr { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px 9px; padding: 12px; margin-bottom: 10px; }
+        .lesson-card[open] .task-table td[data-label="Time"] { grid-column: 1 / -1; padding: 0 130px 2px 0; }
+        .lesson-card[open] .task-table td[data-label="Time"]::before,
+        .lesson-card[open] .desktop-task-time { display: none; }
+        .lesson-card[open] .mobile-task-header { display: block; color: var(--ink); font: 600 14px/1.25 'DM Sans'; }
+        .lesson-card[open] .task-table td[data-label="Block"] { display: none; }
+        .lesson-card[open] .task-table td[data-label="Frame"],
+        .lesson-card[open] .task-table td[data-label="Style"],
+        .lesson-card[open] .task-table td[data-label="Dance"] { padding: 0; }
+        .lesson-card[open] .task-table td[data-label="Activity"] { grid-column: 1 / -1; padding-top: 2px; font-size: 14px; line-height: 1.35; }
+        .lesson-card[open] .task-table td[data-label="Activity"]::before { display: none; }
+        .lesson-card[open] .task-table td[data-label="Progress"] { position: absolute; top: 9px; right: 10px; display: block; width: 120px; margin: 0; padding: 0; }
+        .lesson-card[open] .task-table td[data-label="Progress"]::before { display: none; }
+        .lesson-card[open] .inline-status { width: 120px; min-height: 34px; height: 34px; font-size: 11px; }
+      }
     </style>
   </head>
   <body>
