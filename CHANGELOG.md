@@ -2,6 +2,29 @@
 
 This file records stable versions of the 30-Lesson DanceSport Plan.
 
+## v2.0.0 — 2026-09-14
+
+Stable cross-device release.
+
+- Preserves the polished desktop and laptop Detailed Plan experience.
+- Adds a dedicated readable mobile Detailed Plan, including compact shared lesson controls and task summaries.
+- Synchronizes task status, lesson date, instructor, notes, and named video links through the shared database.
+- Keeps Lesson Notes to one meaningful entry per lesson and prevents date-only duplicate entries.
+- Uses the shared `julia` app passcode.
+
+## v1.1.11 — 2026-09-14
+
+- Made lesson details display the newest shared team record rather than a device-specific record.
+- Added automatic shared-data refreshes while the tracker remains open.
+
+## v1.1.9 — 2026-09-14
+
+- Placed compact phone Lesson Date and Instructor fields on one line with left-aligned date text.
+
+## v1.1.8 — 2026-09-14
+
+- Made the phone Lesson Date and Instructor controls compact, equal-width, and left-aligned.
+
 ## v1.1.7 — 2026-09-14
 
 - Restored the untouched desktop Detailed Plan table by hiding mobile-only task summaries outside phone layouts.
