@@ -2,6 +2,12 @@
 
 This file records stable versions of the 30-Lesson DanceSport Plan.
 
+## v1.1.1 — 2026-09-14
+
+- Condensed the phone Detailed Plan so each activity uses substantially less vertical space.
+- Reduced Lesson Notes typography on phones while preserving its labeled table structure.
+- Kept the phone Lesson Summary and Phase Map layouts unchanged.
+
 ## v1.1.0 — 2026-09-14
 
 - Added a phone-first responsive layout while preserving the laptop and desktop presentation.
