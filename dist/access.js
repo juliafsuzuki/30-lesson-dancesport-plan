@@ -22,7 +22,7 @@ if (localStorage.getItem(accessKey) === 'true') {
 
 accessForm.addEventListener('submit', (event) => {
   event.preventDefault();
-  if (accessPasscode.value.trim() === 'FA_Julia') {
+  if (accessPasscode.value.trim() === 'julia') {
     localStorage.setItem(accessKey, 'true');
     openPlan();
     return;
