@@ -2,6 +2,11 @@
 
 This file records stable versions of the 30-Lesson DanceSport Plan.
 
+## v1.1.11 — 2026-09-14
+
+- Made lesson details display the newest shared team record rather than a device-specific record.
+- Added automatic shared-data refreshes while the tracker remains open.
+
 ## v1.1.9 — 2026-09-14
 
 - Placed compact phone Lesson Date and Instructor fields on one line with left-aligned date text.

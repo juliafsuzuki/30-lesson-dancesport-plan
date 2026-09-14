@@ -9,9 +9,9 @@
 
   function preferredEntry(lessonId) {
     const scoped = entriesForLesson(lessonId).filter((entry) => state.instructor === 'all' || entry.instructor === state.instructor);
-    const own = scoped.filter((entry) => entry.created_by && entry.created_by === state.session?.user?.id);
-    const source = own.length ? own : scoped;
-    return source.slice().sort((a, b) => String(b.created_at || b.session_date || '').localeCompare(String(a.created_at || a.session_date || '')))[0];
+    // The lesson surface is shared: always display the newest matching team record,
+    // not just the record created by the browser currently viewing the tracker.
+    return scoped.slice().sort((a, b) => String(b.created_at || b.session_date || '').localeCompare(String(a.created_at || a.session_date || '')))[0];
   }
 
   function ownEntry(lessonId) {
