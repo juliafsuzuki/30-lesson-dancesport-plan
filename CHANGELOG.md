@@ -2,6 +2,10 @@
 
 This file records stable versions of the 30-Lesson DanceSport Plan.
 
+## v3.0.1 — 2026-09-16
+
+- Kept the 30-Lesson DanceSport Plan title on one line for desktop and laptop screens, while retaining the mobile-friendly layout.
+
 ## v3.0.0 — 2026-09-16
 
 Stable cross-device release.
