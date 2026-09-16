@@ -129,7 +129,10 @@
       if (!lessonId || !actionBar || actionBar.querySelector('.lesson-session-controls')) return;
     // Reopen this instructor's own current note for editing. A different
     // instructor's note is never copied into a new anonymous session.
-    const entry = ownEntry(lessonId);
+    // Details are shared across the team, so always display the most recent
+    // lesson record rather than letting a browser-local record reset the
+    // date or instructor after a refresh.
+    const entry = latestSharedEntry(lessonId);
       const controls = document.createElement('div');
       controls.className = 'lesson-session-controls';
       controls.innerHTML = `<label class="lesson-date-label">Lesson date<span class="mobile-date-value">${safe(entry?.session_date ? displayDate(entry.session_date) : 'Select date')}</span><input class="lesson-date" type="date" value="${safe(entry?.session_date || '')}" /></label><label>Instructor<select class="lesson-instructor"><option value="">Select instructor</option>${instructorOptions.map((name) => `<option${entry?.instructor === name ? ' selected' : ''}>${name}</option>`).join('')}</select></label><span class="lesson-session-message" aria-live="polite"></span>`;

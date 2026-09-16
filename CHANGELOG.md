@@ -2,6 +2,11 @@
 
 This file records stable versions of the 30-Lesson DanceSport Plan.
 
+## v3.0.3 — 2026-09-16
+
+- Retained shared lesson dates and instructors after refresh on desktop, laptop, and mobile.
+- Restored Lesson Note history in the mobile Detailed Plan view.
+
 ## v3.0.2 — 2026-09-16
 
 - Automatically renew anonymous access before loading shared tracker records, preserving shared Lesson Notes in both Detailed Plan and Lesson Notes.
