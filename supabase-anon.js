@@ -37,6 +37,13 @@ async function loadEntries() {
     fetch(`${state.config.url}/rest/v1/progress_entries?select=*&order=session_date.desc,created_at.desc`, { headers: headers() }),
     fetch(`${state.config.url}/rest/v1/task_statuses?select=*`, { headers: headers() })
   ]);
+  // Anonymous Supabase tokens are deliberately short-lived. Renew before
+  // treating a 401 as an application error, so shared notes remain visible
+  // after the tracker has been open for a while.
+  if ((entriesResponse.status === 401 || statusesResponse.status === 401) && typeof renewAnonymousSupabaseSession === 'function') {
+    await renewAnonymousSupabaseSession();
+    return;
+  }
   if (!entriesResponse.ok || !statusesResponse.ok) {
     const failedResponse = !entriesResponse.ok ? entriesResponse : statusesResponse;
     const detail = await failedResponse.text();

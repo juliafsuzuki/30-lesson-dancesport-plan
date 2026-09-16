@@ -2,6 +2,10 @@
 
 This file records stable versions of the 30-Lesson DanceSport Plan.
 
+## v3.0.2 — 2026-09-16
+
+- Automatically renew anonymous access before loading shared tracker records, preserving shared Lesson Notes in both Detailed Plan and Lesson Notes.
+
 ## v3.0.1 — 2026-09-16
 
 - Kept the 30-Lesson DanceSport Plan title on one line for desktop and laptop screens, while retaining the mobile-friendly layout.
