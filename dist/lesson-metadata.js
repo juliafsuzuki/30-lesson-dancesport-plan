@@ -62,13 +62,17 @@
   }
 
   async function saveLessonRecord(lessonId, values, retried = false) {
-    const existing = latestSharedEntry(lessonId);
+    // A shared lesson may have been started by another anonymous instructor.
+    // Supabase correctly prevents this browser from editing that person's row,
+    // so update only this browser's own record and create one when needed.
+    const shared = latestSharedEntry(lessonId);
+    const existing = state.session?.user?.id ? ownEntry(lessonId) : null;
     const payload = {
       instructor: values.instructor,
       session_date: values.date,
       status: 'in-progress',
-      notes: values.notes || existing?.notes || null,
-      video_urls: values.videoUrls || existing?.video_urls || []
+      notes: values.notes ?? existing?.notes ?? shared?.notes ?? null,
+      video_urls: values.videoUrls ?? existing?.video_urls ?? shared?.video_urls ?? []
     };
     if (!state.config || !state.session?.access_token) {
       const local = normalizeEntry({ ...payload, lesson_id: lessonId, task_index: 0, created_at: new Date().toISOString() });
@@ -91,7 +95,12 @@
       return saveLessonRecord(lessonId, values, true);
     }
     if (!response.ok) throw new Error(`Could not save the lesson details (${response.status}).`);
-    const row = (await response.json())[0];
+    const returnedRows = await response.json();
+    // A successful Supabase write can legitimately return no row when a
+    // project's response policy is more restrictive than its write policy.
+    // Keep the page responsive in that case; the normal refresh will confirm
+    // the shared record shortly afterwards.
+    const row = returnedRows[0] || { ...existing, ...payload, lesson_id: lessonId, task_index: existing?.task_index ?? 0, created_by: existing?.created_by || state.session.user.id, created_at: existing?.created_at || new Date().toISOString() };
     updateEntryState(row);
     setSync('Shared Supabase · synced');
     return row;
