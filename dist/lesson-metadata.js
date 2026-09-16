@@ -61,18 +61,18 @@
     $('#video-links').appendChild(row);
   }
 
-  async function saveLessonRecord(lessonId, values, retried = false) {
+  async function saveLessonRecord(lessonId, values, { createNew = false, keepSharedContent = false } = {}, retried = false) {
     // A shared lesson may have been started by another anonymous instructor.
     // Supabase correctly prevents this browser from editing that person's row,
     // so update only this browser's own record and create one when needed.
     const shared = latestSharedEntry(lessonId);
-    const existing = state.session?.user?.id ? ownEntry(lessonId) : null;
+    const existing = createNew ? null : (state.session?.user?.id ? ownEntry(lessonId) : null);
     const payload = {
       instructor: values.instructor,
       session_date: values.date,
       status: 'in-progress',
-      notes: values.notes ?? existing?.notes ?? shared?.notes ?? null,
-      video_urls: values.videoUrls ?? existing?.video_urls ?? shared?.video_urls ?? []
+      notes: values.notes ?? existing?.notes ?? (keepSharedContent ? shared?.notes : null),
+      video_urls: values.videoUrls ?? existing?.video_urls ?? (keepSharedContent ? shared?.video_urls : [])
     };
     if (!state.config || !state.session?.access_token) {
       const local = normalizeEntry({ ...payload, lesson_id: lessonId, task_index: 0, created_at: new Date().toISOString() });
@@ -92,7 +92,7 @@
     });
     if (response.status === 401 && !retried && typeof renewAnonymousSupabaseSession === 'function') {
       await renewAnonymousSupabaseSession();
-      return saveLessonRecord(lessonId, values, true);
+      return saveLessonRecord(lessonId, values, { createNew, keepSharedContent }, true);
     }
     if (!response.ok) throw new Error(`Could not save the lesson details (${response.status}).`);
     const returnedRows = await response.json();
@@ -159,15 +159,13 @@
   window.openProgress = function (event) {
     const lessonId = Number(event.currentTarget.dataset.lesson);
     const lesson = lessons.find((item) => item.id === lessonId);
-    const entry = preferredEntry(lessonId);
     $('#lesson-id').value = lessonId;
     $('#task-index').value = '0';
-    $('#dialog-title').textContent = `Lesson ${String(lessonId).padStart(2, '0')} · Note`;
-    $('#notes').value = entry?.notes || '';
+    $('#dialog-title').textContent = `Lesson ${String(lessonId).padStart(2, '0')} · Add Note`;
+    $('#notes').value = '';
     const videoLinks = $('#video-links');
     videoLinks.innerHTML = '';
-    const videos = entry?.video_urls?.length ? videoDetails(entry.video_urls) : [{}];
-    videos.forEach((video) => addVideoEntry(video));
+    addVideoEntry();
     $('#progress-dialog').showModal();
   };
 
@@ -194,7 +192,7 @@
       alert('Use a valid http or https video link.'); return;
     }
     try {
-      await saveLessonRecord(lessonId, { date: controls.date.value, instructor: controls.instructor.value, notes: $('#notes').value.trim(), videoUrls: videos.map((video) => JSON.stringify(video)) });
+      await saveLessonRecord(lessonId, { date: controls.date.value, instructor: controls.instructor.value, notes: $('#notes').value.trim(), videoUrls: videos.map((video) => JSON.stringify(video)) }, { createNew: true });
       $('#progress-dialog').close();
       render();
     } catch (error) { alert(error.message); }

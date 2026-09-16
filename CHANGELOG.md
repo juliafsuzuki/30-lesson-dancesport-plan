@@ -2,6 +2,11 @@
 
 This file records stable versions of the 30-Lesson DanceSport Plan.
 
+## v2.0.3 — 2026-09-16
+
+- Preserves every saved Lesson Note as a separate shared entry, including notes added from other anonymous instructor sessions.
+- Shows the complete shared note history for every lesson in Lesson Notes.
+
 ## v2.0.2 — 2026-09-16
 
 - Fixed Lesson Notes for shared lessons: an instructor can now add a note even when another instructor created the earlier lesson record.
