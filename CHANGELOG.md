@@ -2,6 +2,12 @@
 
 This file records stable versions of the 30-Lesson DanceSport Plan.
 
+## v3.0.4 — 2026-09-16
+
+- Renamed the lesson action to Add Note.
+- Consolidated Lesson Notes into one row per lesson while retaining the full note and video log.
+- Simplified Detailed Plan note history to key takeaways and video links only.
+
 ## v3.0.3 — 2026-09-16
 
 - Retained shared lesson dates and instructors after refresh on desktop, laptop, and mobile.

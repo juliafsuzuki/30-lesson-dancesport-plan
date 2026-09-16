@@ -137,7 +137,7 @@
       controls.className = 'lesson-session-controls';
       controls.innerHTML = `<label class="lesson-date-label">Lesson date<span class="mobile-date-value">${safe(entry?.session_date ? displayDate(entry.session_date) : 'Select date')}</span><input class="lesson-date" type="date" value="${safe(entry?.session_date || '')}" /></label><label>Instructor<select class="lesson-instructor"><option value="">Select instructor</option>${instructorOptions.map((name) => `<option${entry?.instructor === name ? ' selected' : ''}>${name}</option>`).join('')}</select></label><span class="lesson-session-message" aria-live="polite"></span>`;
       const button = actionBar.querySelector('.lesson-log-button');
-      button.textContent = 'Lesson Note';
+      button.textContent = 'Add Note';
       actionBar.insertBefore(controls, button);
       const footer = document.createElement('div');
       footer.className = 'lesson-note-action';
@@ -149,16 +149,10 @@
   }
 
   function currentLessonNotes(lessonId) {
-    const bySession = new Map();
-    entriesForLesson(lessonId)
+    return entriesForLesson(lessonId)
       .filter((entry) => entry.notes || entry.video_urls?.length || entry.video_url)
       .filter((entry) => String(entry.notes || '').trim().toLowerCase() !== 'anonymous instructor')
-      .forEach((entry) => {
-        const key = entry.created_by || 'legacy';
-        const prior = bySession.get(key);
-        if (!prior || String(entry.created_at || entry.session_date || '') > String(prior.created_at || prior.session_date || '')) bySession.set(key, entry);
-      });
-    return [...bySession.values()].sort((a, b) => String(a.created_at || a.session_date || '').localeCompare(String(b.created_at || b.session_date || '')));
+      .sort((a, b) => String(a.created_at || a.session_date || '').localeCompare(String(b.created_at || b.session_date || '')));
   }
 
   function decorateLessonNotes() {
@@ -172,7 +166,7 @@
       history.className = 'lesson-note-history';
       history.innerHTML = `<p class="eyebrow">Lesson notes</p><ul class="entry-list">${entries.map((entry) => {
         const videos = videoDetails(entry.video_urls || (entry.video_url ? [entry.video_url] : []));
-        return `<li><strong>${safe(entry.instructor || 'Instructor')}</strong> · ${safe(entry.session_date ? displayDate(entry.session_date) : '—')}<small>${safe(entry.notes || 'Video added.')}${videos.length ? `<span class="video-links">${videos.map((video) => `<a href="${safe(video.url)}" target="_blank" rel="noopener noreferrer">${safe(video.name)}</a>`).join(' · ')}</span>` : ''}</small></li>`;
+        return `<li><small>${safe(entry.notes || 'Video added.')}${videos.length ? `<span class="video-links">${videos.map((video) => `<a href="${safe(video.url)}" target="_blank" rel="noopener noreferrer">${safe(video.name)}</a>`).join(' · ')}</span>` : ''}</small></li>`;
       }).join('')}</ul>`;
       footer.before(history);
     });
@@ -227,7 +221,7 @@
       alert('Use a valid http or https video link.'); return;
     }
     try {
-      await saveLessonRecord(lessonId, { date: controls.date.value, instructor: controls.instructor.value, notes: $('#notes').value.trim(), videoUrls: videos.map((video) => JSON.stringify(video)) });
+      await saveLessonRecord(lessonId, { date: controls.date.value, instructor: controls.instructor.value, notes: $('#notes').value.trim(), videoUrls: videos.map((video) => JSON.stringify(video)) }, { createNew: true });
       $('#progress-dialog').close();
       render();
     } catch (error) { alert(error.message); }

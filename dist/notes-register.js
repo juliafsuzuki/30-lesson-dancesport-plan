@@ -20,21 +20,24 @@
         const searchable = `${lesson?.title || ''} ${entry.instructor || ''} ${entry.notes || ''} ${(entry.video_urls || []).join(' ')}`.toLowerCase();
         return searchable.includes(state.query.toLowerCase());
       });
-    // One current note is kept per anonymous instructor session. This keeps
-    // an overwritten note out of the register while retaining other
-    // instructors' shared notes for the same lesson.
-    const rows = [...entries.reduce((bySession, entry) => {
-      const key = `${entry.lesson_id}:${entry.created_by || 'legacy'}`;
-      const prior = bySession.get(key);
-      if (!prior || String(entry.created_at || entry.session_date || '') > String(prior.created_at || prior.session_date || '')) bySession.set(key, entry);
-      return bySession;
+    // The register is one row per lesson. Its note and video cells preserve
+    // every added log for that lesson in chronological order.
+    const rows = [...entries.reduce((byLesson, entry) => {
+      const key = Number(entry.lesson_id);
+      const group = byLesson.get(key) || { lessonId: key, entries: [] };
+      group.entries.push(entry);
+      byLesson.set(key, group);
+      return byLesson;
     }, new Map()).values()]
-      .sort((a, b) => Number(a.lesson_id) - Number(b.lesson_id) || String(a.session_date || '').localeCompare(String(b.session_date || '')) || String(a.created_at || '').localeCompare(String(b.created_at || '')));
+      .map((group) => ({ ...group, entries: group.entries.sort((a, b) => String(a.created_at || a.session_date || '').localeCompare(String(b.created_at || b.session_date || ''))) }))
+      .sort((a, b) => a.lessonId - b.lessonId);
     if (!rows.length) return `<div class="empty"><p class="eyebrow">No lesson notes yet</p><h2>Lesson notes and video links will appear here once saved.</h2></div>`;
-    return `<div class="notes-table-wrap"><table class="notes-table"><thead><tr><th>Lesson no.</th><th>Lesson name/title</th><th>Lesson date</th><th>Lesson note</th><th>Video links</th></tr></thead><tbody>${rows.map((entry) => {
-      const lesson = lessons.find((item) => item.id === Number(entry.lesson_id));
-      const videos = videoDetails(entry.video_urls || (entry.video_url ? [entry.video_url] : []));
-      return `<tr><td data-label="Lesson no.">${safe(`Lesson ${String(entry.lesson_id).padStart(2, '0')}`)}</td><td data-label="Lesson name/title">${safe(lesson ? detailedTitle(lesson) : 'Lesson unavailable')}</td><td data-label="Lesson date">${safe(entry.session_date ? displayDate(entry.session_date) : '—')}</td><td data-label="Lesson note">${safe(entry.notes || '—')}</td><td data-label="Video links">${videos.length ? `<span class="note-video-links">${videos.map((video) => `<a href="${safe(video.url)}" target="_blank" rel="noopener noreferrer">${safe(video.name)}</a>`).join('')}</span>` : '—'}</td></tr>`;
+    return `<div class="notes-table-wrap"><table class="notes-table"><thead><tr><th>Lesson no.</th><th>Lesson name/title</th><th>Lesson date</th><th>Lesson note</th><th>Video links</th></tr></thead><tbody>${rows.map((group) => {
+      const entry = group.entries[group.entries.length - 1];
+      const lesson = lessons.find((item) => item.id === group.lessonId);
+      const notes = group.entries.map((item) => item.notes).filter(Boolean);
+      const videos = group.entries.flatMap((item) => videoDetails(item.video_urls || (item.video_url ? [item.video_url] : [])));
+      return `<tr><td data-label="Lesson no.">${safe(`Lesson ${String(group.lessonId).padStart(2, '0')}`)}</td><td data-label="Lesson name/title">${safe(lesson ? detailedTitle(lesson) : 'Lesson unavailable')}</td><td data-label="Lesson date">${safe(entry.session_date ? displayDate(entry.session_date) : '—')}</td><td data-label="Lesson note">${notes.length ? `<div class="note-log">${notes.map((note) => `<div>${safe(note)}</div>`).join('')}</div>` : '—'}</td><td data-label="Video links">${videos.length ? `<span class="note-video-links">${videos.map((video) => `<a href="${safe(video.url)}" target="_blank" rel="noopener noreferrer">${safe(video.name)}</a>`).join('')}</span>` : '—'}</td></tr>`;
     }).join('')}</tbody></table></div>`;
   }
 
