@@ -2,6 +2,13 @@
 
 This file records stable versions of the 30-Lesson DanceSport Plan.
 
+## v3.0.0 — 2026-09-16
+
+Stable cross-device release.
+
+- Working version for desktop, laptop, and mobile.
+- Includes shared progress tracking, instructor notes, and synchronized Lesson Notes for the team.
+
 ## v2.0.5 — 2026-09-16
 
 - Restored the current shared Lesson Notes within each expanded Detailed Plan lesson.
