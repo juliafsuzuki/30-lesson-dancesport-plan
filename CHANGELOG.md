@@ -2,6 +2,14 @@
 
 This file records stable versions of the 30-Lesson DanceSport Plan.
 
+## v4.0.0 — 2026-09-16
+
+Major stable release for desktop, laptop, and mobile.
+
+- Shared lesson dates, instructors, task progress, notes, and video links stay synchronized across devices.
+- Lesson Notes now use one consolidated row per lesson, with a lesson-level status.
+- Detailed Plan provides streamlined, shared note history and responsive layouts for desktop and mobile.
+
 ## v3.0.5 — 2026-09-16
 
 - Added a lesson-level Status field to the Lesson Notes register.
