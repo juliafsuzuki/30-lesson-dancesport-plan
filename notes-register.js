@@ -13,13 +13,22 @@
     const entries = state.entries
       .filter((entry) => state.instructor === 'all' || entry.instructor === state.instructor)
       .filter((entry) => entry.notes || entry.video_urls?.length || entry.video_url)
+      .filter((entry) => String(entry.notes || '').trim().toLowerCase() !== 'anonymous instructor')
       .filter((entry) => {
         const lesson = lessons.find((item) => item.id === Number(entry.lesson_id));
         if (state.phase !== 'all' && lesson?.phase !== Number(state.phase)) return false;
         const searchable = `${lesson?.title || ''} ${entry.instructor || ''} ${entry.notes || ''} ${(entry.video_urls || []).join(' ')}`.toLowerCase();
         return searchable.includes(state.query.toLowerCase());
       });
-    const rows = [...entries]
+    // One current note is kept per anonymous instructor session. This keeps
+    // an overwritten note out of the register while retaining other
+    // instructors' shared notes for the same lesson.
+    const rows = [...entries.reduce((bySession, entry) => {
+      const key = `${entry.lesson_id}:${entry.created_by || 'legacy'}`;
+      const prior = bySession.get(key);
+      if (!prior || String(entry.created_at || entry.session_date || '') > String(prior.created_at || prior.session_date || '')) bySession.set(key, entry);
+      return bySession;
+    }, new Map()).values()]
       .sort((a, b) => Number(a.lesson_id) - Number(b.lesson_id) || String(a.session_date || '').localeCompare(String(b.session_date || '')) || String(a.created_at || '').localeCompare(String(b.created_at || '')));
     if (!rows.length) return `<div class="empty"><p class="eyebrow">No lesson notes yet</p><h2>Lesson notes and video links will appear here once saved.</h2></div>`;
     return `<div class="notes-table-wrap"><table class="notes-table"><thead><tr><th>Lesson no.</th><th>Lesson name/title</th><th>Lesson date</th><th>Lesson note</th><th>Video links</th></tr></thead><tbody>${rows.map((entry) => {

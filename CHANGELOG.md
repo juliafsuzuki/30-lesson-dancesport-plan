@@ -2,6 +2,11 @@
 
 This file records stable versions of the 30-Lesson DanceSport Plan.
 
+## v2.0.4 — 2026-09-16
+
+- Keeps the latest Lesson Note from each anonymous instructor session and hides overwritten note versions.
+- Removes the accidental “anonymous instructor” placeholder from Lesson Notes.
+
 ## v2.0.3 — 2026-09-16
 
 - Preserves every saved Lesson Note as a separate shared entry, including notes added from other anonymous instructor sessions.
