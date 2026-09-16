@@ -145,6 +145,36 @@
     });
   }
 
+  function currentLessonNotes(lessonId) {
+    const bySession = new Map();
+    entriesForLesson(lessonId)
+      .filter((entry) => entry.notes || entry.video_urls?.length || entry.video_url)
+      .filter((entry) => String(entry.notes || '').trim().toLowerCase() !== 'anonymous instructor')
+      .forEach((entry) => {
+        const key = entry.created_by || 'legacy';
+        const prior = bySession.get(key);
+        if (!prior || String(entry.created_at || entry.session_date || '') > String(prior.created_at || prior.session_date || '')) bySession.set(key, entry);
+      });
+    return [...bySession.values()].sort((a, b) => String(a.created_at || a.session_date || '').localeCompare(String(b.created_at || b.session_date || '')));
+  }
+
+  function decorateLessonNotes() {
+    document.querySelectorAll('details.lesson-card').forEach((card) => {
+      card.querySelector('.lesson-note-history')?.remove();
+      const lessonId = Number(card.querySelector('.lesson-number')?.textContent.match(/\d+/)?.[0]);
+      const entries = currentLessonNotes(lessonId);
+      const footer = card.querySelector('.lesson-note-action');
+      if (!entries.length || !footer) return;
+      const history = document.createElement('section');
+      history.className = 'lesson-note-history';
+      history.innerHTML = `<p class="eyebrow">Lesson notes</p><ul class="entry-list">${entries.map((entry) => {
+        const videos = videoDetails(entry.video_urls || (entry.video_url ? [entry.video_url] : []));
+        return `<li><strong>${safe(entry.instructor || 'Instructor')}</strong> · ${safe(entry.session_date ? displayDate(entry.session_date) : '—')}<small>${safe(entry.notes || 'Video added.')}${videos.length ? `<span class="video-links">${videos.map((video) => `<a href="${safe(video.url)}" target="_blank" rel="noopener noreferrer">${safe(video.name)}</a>`).join(' · ')}</span>` : ''}</small></li>`;
+      }).join('')}</ul>`;
+      footer.before(history);
+    });
+  }
+
   function applyLessonDates() {
     document.querySelectorAll('.lesson-card').forEach((card) => {
       const lessonId = Number(card.querySelector('.lesson-number')?.textContent.match(/\d+/)?.[0]);
@@ -201,6 +231,6 @@
   });
 
   const baseRender = window.render;
-  window.render = function () { baseRender(); decorateLessonControls(); applyLessonDates(); };
+  window.render = function () { baseRender(); decorateLessonControls(); applyLessonDates(); decorateLessonNotes(); };
   render();
 })();
