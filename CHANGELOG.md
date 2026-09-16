@@ -2,6 +2,10 @@
 
 This file records stable versions of the 30-Lesson DanceSport Plan.
 
+## v3.0.5 — 2026-09-16
+
+- Added a lesson-level Status field to the Lesson Notes register.
+
 ## v3.0.4 — 2026-09-16
 
 - Renamed the lesson action to Add Note.
