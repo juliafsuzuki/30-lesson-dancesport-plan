@@ -2,6 +2,10 @@
 
 This file records stable versions of the 30-Lesson DanceSport Plan.
 
+## v2.0.1 — 2026-09-16
+
+- Fixed Lesson Notes for shared lessons: an instructor can now add a note even when another instructor created the earlier lesson record.
+
 ## v2.0.0 — 2026-09-14
 
 Stable cross-device release.
