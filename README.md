@@ -6,6 +6,7 @@ The tracker is a public web app with a shared Supabase database. Version 4.0.0 i
 
 ## Project records
 
+- [Solution documentation](./docs/GITHUB-SOLUTION.md) — scope, success criteria, architecture, implementation, release history, development resources, and future AI capability.
 - [Change log](./CHANGELOG.md) — stable release history.
 - [Reproduction guide](./REPRODUCE.md) — how to rebuild the app and its database.
 - [`supabase/migrations/`](./supabase/migrations/) — database schema history.
