@@ -4,11 +4,12 @@ Current release: **v4.0.0**
 
 The tracker is a public web app with a shared Supabase database. Version 4.0.0 is the stable shared release for desktop, laptop, and mobile use. Its four synchronized views are Detailed Plan, Lesson Summary, Phase Map, and Lesson Notes.
 
+## Solution Overview
+
 <img width="1672" height="941" alt="architecture" src="https://github.com/user-attachments/assets/3c483fb5-dc8d-473f-b229-eca70cc2f94e" />
 
-See the Solution Overview Document: https://github.com/juliafsuzuki/30-lesson-dancesport-plan/blob/main/docs/GITHUB-SOLUTION.md
 
-## Project records
+## Project Documentation
 
 - [Solution documentation](./docs/GITHUB-SOLUTION.md) — scope, success criteria, architecture, implementation, release history, development resources, and future AI capability.
 - [Change log](./CHANGELOG.md) — stable release history.
